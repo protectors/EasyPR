@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>opencv3.1.redist</id>
+    <version>1.0</version>
+    <title>OpenCV 3.1 Redist</title>
+    <authors>Itseez</authors>
+    <owners>Itseez</owners>
+    <licenseUrl>http://opensource.org/licenses/bsd-license.php</licenseUrl>
+    <projectUrl>http://opencv.org/</projectUrl>
+    <iconUrl>http://opencvlibrary.svn.sourceforge.net/viewvc/opencvlibrary/trunk/opencv/doc/opencv-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Redistributable components for package 'opencv3.1'. This package should only be installed as a dependency. 
+(This is not the package you are looking for).</description>
+    <summary>Redistributable components for for package 'opencv3.1'</summary>
+    <releaseNotes>Enabled advanced CPU instructions. With OpenMP. No TBB/IPP. vc12/vc14, x64/x86 available.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>OpenCV nativepackage</tags>
+  </metadata>
+</package>
