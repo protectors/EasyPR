@@ -25,8 +25,9 @@ CPlateLocate::CPlateLocate() {
   m_debug = DEFAULT_DEBUG;
 }
 
+//设置生活模式
 void CPlateLocate::setLifemode(bool param) {
-  if (param) {
+  if (param) { 
     setGaussianBlurSize(5);
     setMorphSizeWidth(10);
     setMorphSizeHeight(3);
@@ -118,10 +119,11 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   colorMatch(src, match_grey, r, false);
   SHOW_IMAGE(match_grey, 0);
 
+  //二值化
   Mat src_threshold;
   threshold(match_grey, src_threshold, 0, 255,
             CV_THRESH_OTSU + CV_THRESH_BINARY);
-
+  //获取矩形的宽和高
   Mat element = getStructuringElement(
       MORPH_RECT, Size(color_morph_width, color_morph_height));
   morphologyEx(src_threshold, src_threshold, MORPH_CLOSE, element);
@@ -304,7 +306,7 @@ int CPlateLocate::sobelSecSearch(Mat &bound, Point2f refpoint,
   return 0;
 }
 
-
+//sobel算子运算
 int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
                             int morphH) {
   Mat mat_blur;
@@ -335,7 +337,7 @@ int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
   double otsu_thresh_val =
       threshold(grad, mat_threshold, 0, 255, CV_THRESH_OTSU + CV_THRESH_BINARY);
 
-
+  //闭操作
   Mat element = getStructuringElement(MORPH_RECT, Size(morphW, morphH));
   morphologyEx(mat_threshold, mat_threshold, MORPH_CLOSE, element);
 

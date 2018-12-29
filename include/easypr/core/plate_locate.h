@@ -62,11 +62,14 @@ class CPlateLocate {
     vector<vector<CPlate>>& out_plateVec, bool usePlateMser, vector<vector<RotatedRect>>& out_plateRRect,
     int img_index = 0, bool showDebug = false);
 
+  //车牌定位
   int plateLocate(Mat, std::vector<Mat>&, int = 0);
   int plateLocate(Mat, std::vector<CPlate>&, int = 0);
 
+  //车牌的尺寸验证
   bool verifySizes(RotatedRect mr);
 
+  //设置生活模式
   void setLifemode(bool param);
 
   inline void setGaussianBlurSize(int param) { m_GaussianBlurSize = param; }
@@ -118,21 +121,23 @@ class CPlateLocate {
   static const int DEFAULT_DEBUG = 1;
 
  protected:
-
+  //高斯模糊所用变量
   int m_GaussianBlurSize;
 
+  //连接操作所用变量
   int m_MorphSizeWidth;
   int m_MorphSizeHeight;
 
-
+  //连接操作所用变量
   float m_error;
   float m_aspect;
   int m_verifyMin;
   int m_verifyMax;
 
+  //角度判断所用变量
   int m_angle;
 
-
+  //开启调试模式，0关闭，非0开启
   bool m_debug;
 };
 

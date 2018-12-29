@@ -4,181 +4,182 @@
 #include "accuracy.hpp"
 #include "chars.hpp"
 #include "plate.hpp"
-
-// %OPENCV%\x86\vc12\lib opencv_world300d.lib;
+//
+// %OPENCV%\x86\vc12\lib;
 
 namespace easypr {
 
-namespace demo {
+	namespace demo {
 
-// interactions
+	// interactions
 
-int accuracyTestMain() {
-  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
-  kv->load("resources/text/chinese_mapping");
+	int accuracyTestMain() {
+	  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
+	  kv->load("resources/text/chinese_mapping");
 
-  bool isExit = false;
-  while (!isExit) {
-    easypr::Utils::print_file_lines("resources/text/batch_test_menu");
-    std::cout << kv->get("make_a_choice") << ":";
+	  bool isExit = false;
+	  while (!isExit) {
+		easypr::Utils::print_file_lines("resources/text/batch_test_menu");
+		std::cout << kv->get("make_a_choice") << ":";
 
-    int select = -1;
-    bool isRepeat = true;
-    Result result;
+		int select = -1;
+		bool isRepeat = true;
+		Result result;
 
-    while (isRepeat) {
-      std::cin >> select;
-      isRepeat = false;
-      switch (select) {
-      case 1:
-        accuracyTest("resources/image/general_test", result);
-        break;
-      case 2:
-        accuracyTest("resources/image/native_test", result);
-        break;
-      case 3:
-        gridSearchTest("resources/image/general_test");
-        break;
-      case 4:
-        isExit = true;
-        break;
-      default:
-        std::cout << kv->get("input_error") << ":";
-        isRepeat = true;
-        break;
-      }
-    }
-  }
-  return 0;
-}
+		while (isRepeat) {
+		  std::cin >> select;
+		  isRepeat = false;
+		  switch (select) {
+		  case 1:
+			accuracyTest("resources/image/general_test", result);
+			break;
+		  case 2:
+			accuracyTest("resources/image/native_test", result);
+			break;
+		  case 3:
+			gridSearchTest("resources/image/general_test");
+			break;
+		  case 4:
+			isExit = true;
+			break;
+		  default:
+			std::cout << kv->get("input_error") << ":";
+			isRepeat = true;
+			break;
+		  }
+		}
+	  }
+	  return 0;
+	}
 
-int trainChineseMain() {
-  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
-  kv->load("resources/text/chinese_mapping");
+	int trainChineseMain() {
+	  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
+	  kv->load("resources/text/chinese_mapping");
 
-  bool isExit = false;
-  while (!isExit) {
-    easypr::Utils::print_file_lines("resources/text/train_menu");
-    std::cout << kv->get("make_a_choice") << ":";
+	  bool isExit = false;
+	  while (!isExit) {
+		easypr::Utils::print_file_lines("resources/text/train_menu");
+		std::cout << kv->get("make_a_choice") << ":";
 
-    int select = -1;
-    bool isRepeat = true;
-    while (isRepeat) {
-      std::cin >> select;
-      isRepeat = false;
-      switch (select) {
-      case 1:
-          {
-            easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
-            ann.setNumberForCount(100);
-            ann.train();
-          }
-        break;
-      case 2:
-          {
-            easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
-            ann.setNumberForCount(350);
-            ann.train();
-          }
-        break;
-      case 3:
-          {
-            easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
-            ann.setNumberForCount(700);
-            ann.train();
-          }
-        break;
-      case 4:
-          {
-            easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
-            ann.setNumberForCount(1000);
-            ann.train();
-          }
-        break;
-      case 5:
-          {
-            easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
-            ann.setNumberForCount(1500);
-            ann.train();
-          }
-        break;
-      case 6:
-        isExit = true;
-        break;
-      default:
-        std::cout << kv->get("input_error") << ":";
-        isRepeat = true;
-        break;
-      }
-    }
-  }
-  return 0;
-}
+		int select = -1;
+		bool isRepeat = true;
+		while (isRepeat) {
+		  std::cin >> select;
+		  isRepeat = false;
+		  switch (select) {
+		  case 1:
+			  {
+				easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
+				ann.setNumberForCount(100);
+				ann.train();
+			  }
+			break;
+		  case 2:
+			  {
+				easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
+				ann.setNumberForCount(350);
+				ann.train();
+			  }
+			break;
+		  case 3:
+			  {
+				easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
+				ann.setNumberForCount(700);
+				ann.train();
+			  }
+			break;
+		  case 4:
+			  {
+				easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
+				ann.setNumberForCount(1000);
+				ann.train();
+			  }
+			break;
+		  case 5:
+			  {
+				easypr::AnnChTrain ann("tmp/annCh", "tmp/annCh.xml");
+				ann.setNumberForCount(1500);
+				ann.train();
+			  }
+			break;
+		  case 6:
+			isExit = true;
+			break;
+		  default:
+			std::cout << kv->get("input_error") << ":";
+			isRepeat = true;
+			break;
+		  }
+		}
+	  }
+	  return 0;
+	}
 
-int testMain() {
-  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
-  kv->load("resources/text/chinese_mapping");
+	int testMain() {
+	  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
+	  kv->load("resources/text/chinese_mapping");
 
-  bool isExit = false;
-  while (!isExit) {
-    Utils::print_file_lines("resources/text/test_menu");
-    std::cout << kv->get("make_a_choice") << ":";
+	  bool isExit = false;
+	  while (!isExit) {
+		Utils::print_file_lines("resources/text/test_menu");
+		std::cout << kv->get("make_a_choice") << ":";
 
-    int select = -1;
-    bool isRepeat = true;
-    while (isRepeat) {
-      std::cin >> select;
-      isRepeat = false;
-      switch (select) {
-        case 1:
-          assert(test_plate_locate() == 0);
-          break;
-        case 2:
-          assert(test_plate_judge() == 0);
-          break;
-        case 3:
-          assert(test_plate_detect() == 0);
-          break;
-        case 4:
-          assert(test_chars_segment() == 0);
-          break;
-        case 5:
-          assert(test_chars_identify() == 0);
-          break;
-        case 6:
-          assert(test_chars_recognise() == 0);
-          break;
-        case 7:
-          assert(test_plate_recognize() == 0);
-          break;
-        case 8:
-          assert(test_plate_locate() == 0);
-          assert(test_plate_judge() == 0);
-          assert(test_plate_detect() == 0);
+		int select = -1;
+		bool isRepeat = true;
+		while (isRepeat) {
+		  std::cin >> select;
+		  isRepeat = false;
+		  switch (select) {
+			case 1:
+			  assert(test_plate_locate() == 0);
+			  break;
+			case 2:
+			  assert(test_plate_judge() == 0);
+			  break;
+			case 3:
+			  assert(test_plate_detect() == 0);
+			  break;
+			case 4:
+			  assert(test_chars_segment() == 0);
+			  break;
+			case 5:
+			  assert(test_chars_identify() == 0);
+			  break;
+			case 6:
+			  assert(test_chars_recognise() == 0);
+			  break;
+			case 7:
+			  assert(test_plate_recognize() == 0);
+			  break;
+			case 8:
+			  assert(test_plate_locate() == 0);
+			  assert(test_plate_judge() == 0);
+			  assert(test_plate_detect() == 0);
 
-          assert(test_chars_segment() == 0);
-          assert(test_chars_identify() == 0);
-          assert(test_chars_recognise() == 0);
+			  assert(test_chars_segment() == 0);
+			  assert(test_chars_identify() == 0);
+			  assert(test_chars_recognise() == 0);
 
-          assert(test_plate_recognize() == 0);
-          break;
-        case 9:
-          isExit = true;
-          break;
-        default:
-          std::cout << kv->get("input_error") << ":";
-          isRepeat = true;
-          break;
-      }
-    }
-  }
+			  assert(test_plate_recognize() == 0);
+			  break;
+			case 9:
+			  isExit = true;
+			  break;
+			default:
+			  std::cout << kv->get("input_error") << ":";
+			  isRepeat = true;
+			  break;
+		  }
+		}
+	  }
 
-  return 0;
-}
+	  return 0;
+	}
 
-}  // namespace demo
+	}  // namespace demo
 
 }  // namespace easypr
+
 
 void command_line_handler(int argc, const char* argv[]) {
   program_options::Generator options;
@@ -461,11 +462,7 @@ int main(int argc, const char* argv[]) {
           easypr::demo::accuracyCharRecognizeTest("resources/image/tmp/plates_200k");
           break;
         }
-        case 7: {
-          easypr::Utils::print_file_lines("resources/text/thanks");
-          break;
-        }
-        case 8:
+        case 7:
           isExit = true;
           break;
         default:
@@ -477,3 +474,19 @@ int main(int argc, const char* argv[]) {
   }
   return 0;
 }
+
+//int main(int argc, const char* argv[]) {
+//	  std::shared_ptr<easypr::Kv> kv(new easypr::Kv);
+//	  kv->load("resources/text/chinese_mapping");
+//	
+//	  easypr::CPlateRecognize pr;
+//	  pr.setResultShow(false);
+//	  pr.setDetectType(easypr::PR_DETECT_CMSER);
+//
+//	  vector<easypr::CPlate> plateVec;
+//	  Mat src = imread("D:\1.jpg");
+//	  cv::imshow("test", src);
+//	  int result = pr.plateRecognize(src, plateVec);
+//	  std::cout << result << std::endl;
+//	  return 0;
+//	}

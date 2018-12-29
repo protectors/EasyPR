@@ -2434,10 +2434,10 @@ public:
 };
 
 
-Ptr<SVM> SVM::create()
-{
-    return makePtr<SVMImpl>();
-}
+	Ptr<SVM> SVM::create()
+	{
+		return makePtr<SVMImpl>();
+	}
 
 }
 }

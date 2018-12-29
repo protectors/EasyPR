@@ -98,17 +98,17 @@ static bool kDebug = false;
 
 static const int kGrayCharWidth = 20;
 static const int kGrayCharHeight = 32;
-  static const int kCharLBPGridX = 4;
-  static const int kCharLBPGridY = 4;
-  static const int kCharLBPPatterns = 16;
+static const int kCharLBPGridX = 4;
+static const int kCharLBPGridY = 4;
+static const int kCharLBPPatterns = 16;
 
-  static const int kCharHiddenNeurans = 64;
+static const int kCharHiddenNeurans = 64;
 
-  static const int kCharsCountInOnePlate = 7;
-  static const int kSymbolsCountInChinesePlate = 6;
+static const int kCharsCountInOnePlate = 7;
+static const int kSymbolsCountInChinesePlate = 6;
 
-  static const float kPlateMaxSymbolCount = 7.5f;
-  static const int kSymbolIndex = 2;
+static const float kPlateMaxSymbolCount = 7.5f;
+static const int kSymbolIndex = 2;
 
 // Disable the copy and assignment operator for this class.
 #define DISABLE_ASSIGN_AND_COPY(className) \

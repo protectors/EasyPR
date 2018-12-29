@@ -2,7 +2,6 @@
 
 namespace easypr {
 
-ITrain::ITrain() {}
-
-ITrain::~ITrain() {}
+	ITrain::ITrain() {}
+	ITrain::~ITrain() {}
 }

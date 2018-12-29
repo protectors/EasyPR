@@ -24,7 +24,7 @@
 #endif
 
 namespace easypr {
-class Utils {
+	class Utils {
  public:
   static long getTimestamp();
 
@@ -137,7 +137,7 @@ class Utils {
   static std::size_t get_last_slash(const std::string &path);
 };
 
-typedef Utils utils;
+	typedef Utils utils;
 
 }  // namespace easypr
 
