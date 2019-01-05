@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace easypr {
+namespace easypr  {
 
 const float DEFAULT_ERROR = 0.9f;    // 0.6
 const float DEFAULT_ASPECT = 3.75f;  // 3.75
@@ -46,6 +46,7 @@ void CPlateLocate::setLifemode(bool param) {
   }
 }
 
+//对minAreaRect获得的最小外接矩形，用纵横比和面积比进行判断
 bool CPlateLocate::verifySizes(RotatedRect mr) {
   float error = m_error;
   // Spain car plate size: 52x11 aspect 4,7272
@@ -134,7 +135,7 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
 
   src_threshold.copyTo(out);
 
-
+  //取轮廓
   vector<vector<Point>> contours;
 
   findContours(src_threshold,
@@ -142,6 +143,7 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
                CV_RETR_EXTERNAL,
                CV_CHAIN_APPROX_NONE);  // all pixels of each contours
 
+  //生成最小外接矩形
   vector<vector<Point>>::iterator itc = contours.begin();
   while (itc != contours.end()) {
     RotatedRect mr = minAreaRect(Mat(*itc));
@@ -311,8 +313,10 @@ int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
                             int morphH) {
   Mat mat_blur;
   mat_blur = in.clone();
+  //高斯模糊
   GaussianBlur(in, mat_blur, Size(blurSize, blurSize), 0, 0, BORDER_DEFAULT);
 
+  //灰度化
   Mat mat_gray;
   if (mat_blur.channels() == 3)
     cvtColor(mat_blur, mat_gray, CV_RGB2GRAY);
@@ -323,6 +327,7 @@ int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
   int delta = SOBEL_DELTA;
   int ddepth = SOBEL_DDEPTH;
 
+  //Sobel算子
   Mat grad_x, grad_y;
   Mat abs_grad_x, abs_grad_y;
 
@@ -333,6 +338,7 @@ int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
   Mat grad;
   addWeighted(abs_grad_x, SOBEL_X_WEIGHT, 0, 0, 0, grad);
 
+  //二值化
   Mat mat_threshold;
   double otsu_thresh_val =
       threshold(grad, mat_threshold, 0, 255, CV_THRESH_OTSU + CV_THRESH_BINARY);
@@ -418,7 +424,7 @@ void deleteNotArea(Mat &inmat, Color color = UNKNOWN) {
   }
 }
 
-
+//抗扭斜
 int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
                          vector<RotatedRect> &inRects,
                          vector<CPlate> &outPlates, bool useDeteleArea, Color color) {
@@ -514,9 +520,9 @@ int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
   return 0;
 }
 
-
+//角度判断+旋转操作
 bool CPlateLocate::rotation(Mat &in, Mat &out, const Size rect_size,
-                            const Point2f center, const double angle) {
+                            const Point2f center, const double angle) {                                                            
   if (0) {
     imshow("in", in);
     waitKey(0);
@@ -548,6 +554,7 @@ bool CPlateLocate::rotation(Mat &in, Mat &out, const Size rect_size,
   /*imshow("in_copy", in_large);
   waitKey(0);*/
 
+  //进行旋转操作——仿射变换
   Mat mat_rotated;
   warpAffine(in_large, mat_rotated, rot_mat, Size(in_large.cols, in_large.rows),
              CV_INTER_CUBIC);
@@ -573,6 +580,7 @@ bool CPlateLocate::rotation(Mat &in, Mat &out, const Size rect_size,
   return true;
 }
 
+//判断是否倾斜
 bool CPlateLocate::isdeflection(const Mat &in, const double angle,
                                 double &slope) { /*imshow("in",in);
                                                 waitKey(0);*/
@@ -644,7 +652,7 @@ bool CPlateLocate::isdeflection(const Mat &in, const double angle,
   return false;
 }
 
-
+//仿射变换
 void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
   // imshow("in", in);
   // waitKey(0);
@@ -819,6 +827,7 @@ int CPlateLocate::plateMserLocate(Mat src, vector<CPlate> &candPlates, int img_i
 
 int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
                              int morphH) {
+	//高斯模糊
   Mat mat_blur;
   mat_blur = in.clone();
   GaussianBlur(in, mat_blur, Size(blurSize, blurSize), 0, 0, BORDER_DEFAULT);

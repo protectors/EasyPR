@@ -1010,6 +1010,7 @@ Rect CCharsSegment::GetChineseRect(const Rect rectSpe) {
   return a;
 }
 
+//找出指示城市的字符的Rect
 int CCharsSegment::GetSpecificRect(const vector<Rect>& vecRect) {
   vector<int> xpositions;
   int maxHeight = 0;

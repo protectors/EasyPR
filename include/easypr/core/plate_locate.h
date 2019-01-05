@@ -1,16 +1,3 @@
-//////////////////////////////////////////////////////////////////////////
-// Name:	    plate_locate Header
-// Version:		1.2
-// Date:	    2014-09-19
-// MDate:		2014-09-29
-// MDate:	    2015-03-13
-// Author:	    liuruoze
-// Copyright:   liuruoze
-// Reference:	Mastering OpenCV with Practical Computer Vision Projects
-// Reference:	CSDN Bloger taotao1233
-// Desciption:
-// Defines CPlateLocate
-//////////////////////////////////////////////////////////////////////////
 #ifndef EASYPR_CORE_PLATELOCATE_H_
 #define EASYPR_CORE_PLATELOCATE_H_
 

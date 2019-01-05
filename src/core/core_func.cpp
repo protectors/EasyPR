@@ -7,6 +7,7 @@
 #include <ctime>
 
 namespace easypr {
+	//根据一幅图像与颜色模板获取对应的二值图
   Mat colorMatch(const Mat &src, Mat &match, const Color r,
     const bool adaptive_minsv) {
 
@@ -72,6 +73,7 @@ namespace easypr {
 
     // consider multi channel image
     int nCols = src_hsv.cols * channels;
+	//连续存储的数据，按一行处理
     if (src_hsv.isContinuous()) {
       nCols *= nRows;
       nRows = 1;
@@ -134,7 +136,7 @@ namespace easypr {
     // cout << "avg_s:" << s_all / count << endl;
     // cout << "avg_v:" << v_all / count << endl;
 
-    // get the final binary
+    // get the final binary graph
 
     Mat src_grey;
     std::vector<cv::Mat> hsvSplit_done;
@@ -301,8 +303,9 @@ namespace easypr {
       return false;
   }
 
+  //判断车牌类型
   Color getPlateType(const Mat &src, const bool adaptive_minsv) {
-    float max_percent = 0;
+    float max_percent = 0; 
     Color max_color = UNKNOWN;
 
     float blue_percent = 0;
@@ -332,6 +335,7 @@ namespace easypr {
     }
   }
 
+  //只去柳钉操作
   void clearLiuDingOnly(Mat &img) {
     const int x = 7;
     Mat jump = Mat::zeros(1, img.rows, CV_32F);
@@ -2288,6 +2292,7 @@ void clearBorder(const Mat &img, Rect& cropRect) {
     return true;
   }
 
+  //计算一个安全的Rect
   bool calcSafeRect(const RotatedRect &roi_rect, const int width, const int height,
                     Rect_<float> &safeBoundRect) {
     Rect_<float> boudRect = roi_rect.boundingRect();
