@@ -5,7 +5,7 @@
 
 namespace easypr {
 
-  enum Color { BLUE, YELLOW, WHITE, UNKNOWN };
+  enum Color { BLUE, YELLOW, WHITE, UNKNOWN, GREEN };
 
   enum LocateType { SOBEL, COLOR, CMSER, OTHER };
 

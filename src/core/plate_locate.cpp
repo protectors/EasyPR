@@ -108,7 +108,7 @@ int CPlateLocate::mserSearch(const Mat &src,  vector<Mat> &out,
   return 0;
 }
 
-
+//颜色搜索
 int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
                               vector<RotatedRect> &outRects) {
   Mat match_grey;
@@ -117,6 +117,7 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   const int color_morph_width = 10;
   const int color_morph_height = 2;
 
+  //根据一幅图像与颜色模板获取对应的灰度图
   colorMatch(src, match_grey, r, false);
   SHOW_IMAGE(match_grey, 0);
 
@@ -703,22 +704,28 @@ void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
   out = affine_mat;
 }
 
+//车牌颜色定位
 int CPlateLocate::plateColorLocate(Mat src, vector<CPlate> &candPlates,
                                    int index) {
   vector<RotatedRect> rects_color_blue;
   rects_color_blue.reserve(64);
   vector<RotatedRect> rects_color_yellow;
   rects_color_yellow.reserve(64);
+  vector<RotatedRect> rects_color_green;
+  rects_color_green.reserve(64);
 
   vector<CPlate> plates_blue;
   plates_blue.reserve(64);
   vector<CPlate> plates_yellow;
   plates_yellow.reserve(64);
+  vector<CPlate> plates_green;
+  plates_green.reserve(64);
 
   Mat src_clone = src.clone();
 
   Mat src_b_blue;
   Mat src_b_yellow;
+  Mat src_b_green;
 #pragma omp parallel sections
   {
 #pragma omp section
@@ -731,11 +738,16 @@ int CPlateLocate::plateColorLocate(Mat src, vector<CPlate> &candPlates,
       colorSearch(src_clone, YELLOW, src_b_yellow, rects_color_yellow);
       deskew(src_clone, src_b_yellow, rects_color_yellow, plates_yellow, true, YELLOW);
     }
+#pragma omp section
+	{
+		colorSearch(src_clone, GREEN, src_b_green, rects_color_green);
+		deskew(src_clone, src_b_green, rects_color_green, plates_green, true, GREEN);
+	}
   }
 
   candPlates.insert(candPlates.end(), plates_blue.begin(), plates_blue.end());
   candPlates.insert(candPlates.end(), plates_yellow.begin(), plates_yellow.end());
-
+  candPlates.insert(candPlates.end(), plates_green.begin(), plates_green.end());
   return 0;
 }
 
@@ -978,6 +990,7 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
 }
 
 
+//颜色定位+Sobel算子+MSER
 int CPlateLocate::plateLocate(Mat src, vector<Mat> &resultVec, int index) {
   vector<CPlate> all_result_Plates;
 

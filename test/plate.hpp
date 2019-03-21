@@ -8,6 +8,7 @@ namespace demo {
 using namespace cv;
 using namespace std;
 
+//测试车牌定位
 int test_plate_locate() {
   cout << "test_plate_locate" << endl;
 
@@ -20,6 +21,7 @@ int test_plate_locate() {
   //plate.setDebug(0);
   //plate.setLifemode(true);
 
+  //result为0即判断成功！
   int result = plate.plateLocate(src, resultVec);
   if (result == 0) {
     size_t num = resultVec.size();

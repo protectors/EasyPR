@@ -8,6 +8,8 @@
 
 namespace easypr {
 	//根据一幅图像与颜色模板获取对应的二值图
+	//输入RGB图像，颜色模板（蓝色，黄色，绿色）
+	//输出灰度图（只有0和255,255代表匹配，0代表不匹配）
   Mat colorMatch(const Mat &src, Mat &match, const Color r,
     const bool adaptive_minsv) {
 
@@ -33,17 +35,26 @@ namespace easypr {
     const int min_white = 0;   // 15
     const int max_white = 30;  // 40
 
+	// H range of green
+
+	const int min_green = 45;	//35
+	const int max_green = 90;	//77
+
+
     Mat src_hsv;
 
-    // convert to HSV space
+    //转到HSV空间进行处理，颜色搜索主要使用的是H分量进行颜色的匹配工作
     cvtColor(src, src_hsv, CV_BGR2HSV);
 
     std::vector<cv::Mat> hsvSplit;
+	//分割多通道数组成几个单通道数组或者从数组中提取一个通道
     split(src_hsv, hsvSplit);
+	//直方图均衡化，用于提高图像的质量
     equalizeHist(hsvSplit[2], hsvSplit[2]);
+	//多个单通道组合成新的多通道数组
     merge(hsvSplit, src_hsv);
 
-    // match to find the color
+    // 匹配模板基色，切换以查找想要的基色
 
     int min_h = 0;
     int max_h = 0;
@@ -60,6 +71,9 @@ namespace easypr {
       min_h = min_white;
       max_h = max_white;
       break;
+	case GREEN:
+		min_h = min_green;
+		max_h = max_green;
     default:
       // Color::UNKNOWN
       break;
@@ -71,7 +85,7 @@ namespace easypr {
     int channels = src_hsv.channels();
     int nRows = src_hsv.rows;
 
-    // consider multi channel image
+    //图像数据列考虑通道数量的影响
     int nCols = src_hsv.cols * channels;
 	//连续存储的数据，按一行处理
     if (src_hsv.isContinuous()) {
@@ -106,6 +120,9 @@ namespace easypr {
 
           float Hdiff_p = float(Hdiff) / diff_h;
 
+		  //S和V的最小值由adaptive_minsv判断
+		  //如果为true，最小值取决于H值，这个比例衰减
+		  //如果为false，则不再自适应，使用固定的最小值minabs_sv
           float min_sv = 0;
           if (true == adaptive_minsv)
             min_sv =
@@ -136,7 +153,7 @@ namespace easypr {
     // cout << "avg_s:" << s_all / count << endl;
     // cout << "avg_v:" << v_all / count << endl;
 
-    // get the final binary graph
+    // 获取颜色匹配后的二值灰度图
 
     Mat src_grey;
     std::vector<cv::Mat> hsvSplit_done;
